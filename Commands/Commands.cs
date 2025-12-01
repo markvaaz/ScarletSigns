@@ -10,13 +10,13 @@ public static class Commands {
     var player = context.User.GetPlayerData();
 
     if (player == null) {
-      context.Reply("Player data not found.");
+      context.Reply("Player data not found.".FormatError());
       return;
     }
 
     SignService.Create(text, player.Position, fontSize, color);
 
-    context.Reply("Sign created successfully.");
+    context.Reply("Sign created successfully.".FormatSuccess());
   }
 
   [Command("rename", adminOnly: true)]
@@ -24,13 +24,13 @@ public static class Commands {
     var player = context.User.GetPlayerData();
 
     if (player == null) {
-      context.Reply("Player data not found.");
+      context.Reply("Player data not found.".FormatError());
       return;
     }
 
     SignService.Rename(player.Position, newName, 2f, fontSize, color);
 
-    context.Reply("Sign renamed successfully.");
+    context.Reply("Sign renamed successfully.".FormatSuccess());
   }
 
   [Command("remove", adminOnly: true)]
@@ -38,14 +38,14 @@ public static class Commands {
     var player = context.User.GetPlayerData();
 
     if (player == null) {
-      context.Reply("Player data not found.");
+      context.Reply("Player data not found.".FormatError());
       return;
     }
 
-    if (SignService.Remove(player.Position, radius)) {
-      context.Reply("Sign removed successfully.");
-    } else {
-      context.Reply("No sign found nearby to remove.");
+    if (!SignService.Remove(player.Position, radius)) {
+      context.Reply("No sign found nearby to remove.".FormatError());
     }
+
+    context.Reply("Sign removed successfully.".FormatSuccess());
   }
 }
