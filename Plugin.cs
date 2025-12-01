@@ -45,27 +45,4 @@ public class Plugin : BasePlugin {
     CommandRegistry.UnregisterAssembly();
     return true;
   }
-
-  public static void ReloadSettings() {
-    Settings.Dispose();
-    LoadSettings();
-  }
-  public static void LoadSettings() {
-    Settings.Section("General")
-      .Add("Enable", true, "Enable or disable the plugin");
-  }
-
-  /*
-    [CommandGroup("groupname")]
-    public class CommandGroup
-    {
-      [Command("commandname", "Description of the command")]
-      public static void CommandName(CommandContext context)
-      {
-        // Command implementation
-        context.Reply("Command executed successfully!");
-      }
-    }
-  */
-
 }
