@@ -65,7 +65,6 @@ public static class SignService {
       immortal.IsImmortal = true;
     });
 
-
     horse.With((ref DynamicCollision dynamicCollision) => {
       dynamicCollision.Immobile = true;
     });
