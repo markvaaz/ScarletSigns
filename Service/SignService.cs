@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using ProjectM;
 using ScarletCore.Services;
@@ -25,7 +24,7 @@ public static class SignService {
 
   public static void LoadSigns() {
     Signs.Clear();
-    var query = EntityLookupService.Query(EntityQueryOptions.IncludeDisabled, typeof(Mountable), typeof(UserMapZonePackedRevealElement));
+    var query = EntityLookupService.QueryAll(EntityQueryOptions.IncludeDisabled, typeof(Mountable), typeof(UserMapZonePackedRevealElement));
 
     try {
       foreach (var entity in query) {
@@ -42,7 +41,7 @@ public static class SignService {
     }
   }
 
-  public static bool Create(string name, float3 position, float fontSize, string color = "white", bool showSignPost = false) {
+  public static bool Create(string name, float3 position, float fontSize, string color = "white", bool showOnPvp = true) {
     var text = FormatString(name, fontSize, color);
 
     Entity horse = SpawnerService.ImmediateSpawn(HorsePrefab, position);
@@ -68,6 +67,12 @@ public static class SignService {
     horse.With((ref DynamicCollision dynamicCollision) => {
       dynamicCollision.Immobile = true;
     });
+
+    if (showOnPvp) {
+      horse.With((ref Team team) => {
+        team.SetContest(-1, team.ContestTeam);
+      });
+    }
 
     BuffService.TryApplyBuff(horse, InvisibilityBuff, -1f);
     BuffService.TryApplyBuff(horse, ImmaterialBuff, -1f);

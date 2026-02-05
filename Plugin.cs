@@ -2,10 +2,10 @@
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using ScarletCore.Commanding;
 using ScarletCore.Data;
 using ScarletCore.Systems;
 using ScarletSigns.Service;
-using VampireCommandFramework;
 
 namespace ScarletSigns;
 
@@ -31,7 +31,7 @@ public class Plugin : BasePlugin {
 
     Settings = new Settings(MyPluginInfo.PLUGIN_GUID, Instance);
     Database = new Database(MyPluginInfo.PLUGIN_GUID);
-    CommandRegistry.RegisterAll();
+    CommandHandler.RegisterAll();
 
     GameSystems.OnInitialize(OnInitialize);
   }
@@ -42,7 +42,7 @@ public class Plugin : BasePlugin {
 
   public override bool Unload() {
     _harmony?.UnpatchSelf();
-    CommandRegistry.UnregisterAssembly();
+    CommandHandler.UnregisterAssembly();
     return true;
   }
 }

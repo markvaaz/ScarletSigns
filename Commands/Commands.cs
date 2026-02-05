@@ -1,27 +1,28 @@
+using ScarletCore.Commanding;
+using ScarletCore.Localization;
 using ScarletSigns.Service;
-using VampireCommandFramework;
 
 namespace ScarletSigns.Commands;
 
-[CommandGroup("sign")]
+[CommandGroup("sign", Language.English, adminOnly: true)]
 public static class Commands {
-  [Command("create", adminOnly: true)]
-  public static void CreateSign(ChatCommandContext context, string text, string color = "white", float fontSize = 18f) {
-    var player = context.User.GetPlayerData();
+  [Command("create", Language.English)]
+  public static void CreateSign(CommandContext context, string text, string color = "white", float fontSize = 18f, bool showOnPvp = false) {
+    var player = context.Sender;
 
     if (player == null) {
       context.Reply("Player data not found.".FormatError());
       return;
     }
 
-    SignService.Create(text, player.Position, fontSize, color);
+    SignService.Create(text, player.Position, fontSize, color, showOnPvp);
 
     context.Reply("Sign created successfully.".FormatSuccess());
   }
 
-  [Command("rename", adminOnly: true)]
-  public static void RenameSign(ChatCommandContext context, string newName, string color = "white", float fontSize = 18f) {
-    var player = context.User.GetPlayerData();
+  [Command("rename", Language.English)]
+  public static void RenameSign(CommandContext context, string newName, string color = "white", float fontSize = 18f) {
+    var player = context.Sender;
 
     if (player == null) {
       context.Reply("Player data not found.".FormatError());
@@ -33,9 +34,9 @@ public static class Commands {
     context.Reply("Sign renamed successfully.".FormatSuccess());
   }
 
-  [Command("remove", adminOnly: true)]
-  public static void Remove(ChatCommandContext context, float radius = 1f) {
-    var player = context.User.GetPlayerData();
+  [Command("remove", Language.English)]
+  public static void Remove(CommandContext context, float radius = 1f) {
+    var player = context.Sender;
 
     if (player == null) {
       context.Reply("Player data not found.".FormatError());
